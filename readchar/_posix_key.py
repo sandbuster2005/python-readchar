@@ -31,8 +31,8 @@ name_correspondances = {
     "INSERT"             : "kich1",      #insert-character key
     "INSERT_LINE"        : "kil1",       #insert-line key
     "HOME_DOWN"          : "kll",        #lower-left key (home down)
-    "PAGE_UP"            : "kpp",        #next-page key
-    "PAGE_DOWN"          : "knp",        #previous-page key
+    "PAGE_UP"            : "kpp",        #up page key
+    "PAGE_DOWN"          : "knp",        #down page key
     "SCROLL_FORWARD"     : "kind",       #scroll-forward key
     "SCROLL_BACKWARD"    : "kri",        #scroll-backward key
     "SET_TAB"            : "khts",       #set-tab key
