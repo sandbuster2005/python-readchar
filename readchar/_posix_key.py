@@ -31,12 +31,11 @@ name_correspondances = {
     "INSERT"             : "kich1",      #insert-character key
     "INSERT_LINE"        : "kil1",       #insert-line key
     "HOME_DOWN"          : "kll",        #lower-left key (home down)
-    "PAGE_UP"            : "knp",        #next-page key
-    "PAGE_DOWN"          : "kpp",        #previous-page key
+    "PAGE_UP"            : "kpp",        #next-page key
+    "PAGE_DOWN"          : "knp",        #previous-page key
     "SCROLL_FORWARD"     : "kind",       #scroll-forward key
     "SCROLL_BACKWARD"    : "kri",        #scroll-backward key
     "SET_TAB"            : "khts",       #set-tab key
-
     "RIGHT"              : "kcuf1",      #right-arrow key
     "LEFT"               : "kcub1",      #left-arrow key
     "UP"                 : "kcuu1",      # up arrow key
