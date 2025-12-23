@@ -1,6 +1,7 @@
 from ._base_key import *
 # common
 BACKSPACE = "\x7f"
+
 import subprocess
 import re
 import sys
@@ -200,6 +201,7 @@ name_correspondances = {
     "CONTROL_SHIFT_PREVIOUS" : "kPRV6",
     "ALT_CONTROL_PREVIOUS"   : "kPRV7"
 }
+
 normal_mode = [
     "UP",
     "DOWN",
@@ -241,6 +243,16 @@ for key in name_correspondances.keys():
 
     if not value:
         logging.warn(f'{key} is not supported on this device')
+
+
+del data
+del new_data
+del key
+del value
+del x
+
+
+
 
 ENTER = LF
 SUPR = DELETE
