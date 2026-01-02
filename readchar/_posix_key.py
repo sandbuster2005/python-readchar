@@ -15,7 +15,7 @@ def _remove( text : str, chrs : list[str] ) -> str:
     """
     return [text := f"".join( text.split( chraracter ) ) for chraracter  in chrs ][-1]
 
-name_correspondances = {
+name_correspondences = {
     "ESC"                : "kbs",        #backslash key ?
     "BEGIN"              : "kbeg",       #begin key
     "CLEAR_ALL_TAB"      : "ktbc",       #clear-all-tabs key
@@ -229,22 +229,22 @@ for x in range( len(data) ):
     if len(new_data) > 1 and new_data[0][0] == "k": # is a key and is attributed
         keys[new_data[0]] = new_data[1]
 
-for key in name_correspondances.keys():
+for key in name_correspondences.keys():
 
     value = None
 
-    if name_correspondances[key] in keys.keys():
+    if name_correspondences[key] in keys.keys():
         if key in normal_mode:
-            value = "\x1B" + "\x5B" + keys[name_correspondances[key]][3:] # terminals tend to be in normal mode and termnfo give app mode
+            value = "\x1B" + "\x5B" + keys[name_correspondences[key]][3:] # terminals tend to be in normal mode and termnfo give app mode
         else:
-            value = "\x1B" + keys[name_correspondances[key]][2:] # convert \E  to his code
+            value = "\x1B" + keys[name_correspondences[key]][2:] # convert \E  to the escape sequence
 
     setattr(module,key,value)
 
     if not value:
         logging.warn(f'{key} is not supported on this device')
 
-
+del _remove
 del data
 del new_data
 del key

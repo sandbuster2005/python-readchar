@@ -84,9 +84,12 @@ A keystroke can be:
 
 ### `readchar.key` module
 
-This submodule contains a list of available keys to compare against. The constants are
-defined depending on your operating system, so it should be fully portable. If a key is
+This submodule contains a list of available keys to compare against.
+ - Windows : The constants are defined depending on your operating system, so it should be fully portable. If a key is
 listed here for your platform, `readkey()` can read it, and you can compare against it.
+
+ - Linux : It load the Values dynamically from a database contained on your computer . All the value can be seen in readchar.key.name_correspondence
+> <span style='color: red;'>Warning : </span> The keys are not always defined on your computer , in that case it send a warning. the key is then set to None
 
 ### `readchar.config` class
 
