@@ -1,21 +1,13 @@
 from ._base_key import *
+import subprocess
+import sys
+import logging
 # common
 BACKSPACE = "\x7f"
 
-import subprocess
-import re
-import sys
-import logging
-
 module = sys.modules[__name__]
 
-def _remove( text : str, chrs : list[str] ) -> str:
-    """
-    cette fonction permet de remplacer dans word les string contenu dans chr par new
-    """
-    return [text := f"".join( text.split( chraracter ) ) for chraracter  in chrs ][-1]
-
-name_correspondences = {
+names = {
     "ESC"                : "kbs",        #backslash key ?
     "BEGIN"              : "kbeg",       #begin key
     "CLEAR_ALL_TAB"      : "ktbc",       #clear-all-tabs key
@@ -84,6 +76,7 @@ name_correspondences = {
     "F10"                : "kf10",       #F10 function key
     "F11"                : "kf11",       #F11 function key
     "F12"                : "kf12",       #F12 function key
+
     "F13"                : "kf13",       #F13 function key
     "F14"                : "kf14",       #F14 function key
     "F15"                : "kf15",       #F15 function key
@@ -97,6 +90,7 @@ name_correspondences = {
     "F23"                : "kf23",       #F23 function key
     "F24"                : "kf24",       #F24 function key
     "F25"                : "kf25",       #F25 function key
+
     "F26"                : "kf26",       #F26 function key
     "F27"                : "kf27",       #F27 function key
     "F28"                : "kf28",       #F28 function key
@@ -110,6 +104,7 @@ name_correspondences = {
     "F36"                : "kf36",       #F36 function key
     "F37"                : "kf37",       #F37 function key
     "F38"                : "kf38",       #F38 function key
+
     "F39"                : "kf39",       #F39 function key
     "F40"                : "kf40",       #F40 function key
     "F41"                : "kf41",       #F41 function key
@@ -123,6 +118,7 @@ name_correspondences = {
     "F49"                : "kf49",       #F49 function key
     "F50"                : "kf50",       #F50 function key
     "F51"                : "kf51",       #F51 function key
+
     "F52"                : "kf52",       #F52 function key
     "F53"                : "kf53",       #F53 function key
     "F54"                : "kf54",       #F54 function key
@@ -202,6 +198,7 @@ name_correspondences = {
     "ALT_CONTROL_PREVIOUS"   : "kPRV7"
 }
 
+#there might be other key that should go here that I don't know
 normal_mode = [
     "UP",
     "DOWN",
@@ -218,41 +215,37 @@ normal_mode = [
     "PAD_DOWN_RIGHT"
 ]
 
-data = subprocess.check_output(["infocmp","-x"])
-data = data.decode("utf-8")
-data = _remove(data , ["\n","\t"," "]) # new line tabs and spaces
-data = re.split("(?<=(?!\\\\).)," ,data) # split by "," and avoid "\,"
 keys = {}  # create dico with existing key
 
-for x in range( len(data) ):
-    new_data = data[x].split("=")
-    if len(new_data) > 1 and new_data[0][0] == "k": # is a key and is attributed
-        keys[new_data[0]] = new_data[1]
+for key in subprocess.check_output(["infocmp","-x","-1"]).decode("utf-8").split(",\n\t") :
+    key = key.split( "=" )
 
-for key in name_correspondences.keys():
+    if len( key ) > 1 and key[0][0] == "k": # is a key and is attributed
+        keys[ key[0] ] = key[1]
 
-    value = None
 
-    if name_correspondences[key] in keys.keys():
+for key in names.keys():
+
+    if names[ key ] not in keys.keys():# if the key is not defined
+        logging.warning(f'{key} is not supported on this device')
+        value = None
+
+    else:
+
         if key in normal_mode:
-            value = "\x1B" + "\x5B" + keys[name_correspondences[key]][3:] # terminals tend to be in normal mode and termnfo give app mode
+            value = "\x1B" + "\x5B" + keys[ names[ key ] ][3:] # terminals tend to be in normal mode and termnfo give app mode
+
         else:
-            value = "\x1B" + keys[name_correspondences[key]][2:] # convert \E  to the escape sequence
+            value = "\x1B" + keys[ names[ key ] ][2:] # convert \E  to the escape sequence
 
-    setattr(module,key,value)
 
-    if not value:
-        logging.warn(f'{key} is not supported on this device')
+    setattr( module, key, value )
 
-del _remove
-del data
-del new_data
 del key
 del value
-del x
-
 
 
 
 ENTER = LF
 SUPR = DELETE
+
